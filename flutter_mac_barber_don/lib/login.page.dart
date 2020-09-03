@@ -30,6 +30,72 @@ class _LoginPageState extends State<LoginPage> {
 
   //!------------------------------------------ funcoes
   //*------------------------------------------ Firebase
+  void _onPressed() {
+    print("pressed");
+    // ignore: deprecated_member_use
+    final firestoreInstance = Firestore.instance;
+    firestoreInstance.collection("users").add({
+      "name": "john",
+      "age": 50,
+      "email": "example@example.com",
+      "address": {"street": "street 24", "city": "new york"}
+    }).then((value) {
+      // ignore: deprecated_member_use
+      print(value.documentID);
+    });
+  }
+
+  //------------------------------------------- facebook start
+  String _message = 'Log in/out by pressing the buttons below.';
+
+  Future<Null> _login() async {
+    final FacebookLoginResult result =
+        await LoginPage.facebookSignIn.logIn(['email']);
+
+    print("RESULT:" + result.toString());
+    print("RESULT:" + result.status.toString());
+    final token = result.accessToken.token;
+    final graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name&access_token=${token}');
+    print(graphResponse.body);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final FacebookAccessToken accessToken = result.accessToken;
+        print("****************** ENTROU PELO FACEBOOK ***************");
+        String facebookUserData = graphResponse.body;
+        final body = json.decode(facebookUserData);
+        _username = body['name'];
+        _usernameFirst = body['first_name'];
+        _usernameLast = body['last_name'];
+        print("Nome Completo: " + _username);
+        print("Primeiro Nome: " + _usernameFirst);
+        print("Último Nome: " + _usernameLast);
+
+        // GRAVAR AQUI NO FIREBASE O CLIENTE QUE LOGGOU PELO FACEBOOK
+
+        setState(() {
+          userIsFacebookLogged = true;
+        });
+
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("****************** CANCELED FACEBOOK ***************");
+        break;
+      case FacebookLoginStatus.error:
+        print("****************** ERROR FACEBOOK ***************");
+        print('Here\'s the error Facebook gave us: ${result.errorMessage}');
+        break;
+    }
+  }
+
+  Future<Null> _logOut() async {
+    await LoginPage.facebookSignIn.logOut();
+    print("****************** SAIU DO FACEBOOK ***************");
+    setState(() {
+      userIsFacebookLogged = false;
+    });
+  }
 
   //------------------------------------------- facebook end
   void _goToScreenHome() {
@@ -49,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
     print(_useremail);
     print("Isto e _userpassword");
     print(_userpassword);
+    _onPressed();
   }
 
   @override
@@ -229,6 +296,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                   ),
+                  onPressed: (userIsFacebookLogged == false) ? _login : _logOut,
                 ),
               ),
             ),
