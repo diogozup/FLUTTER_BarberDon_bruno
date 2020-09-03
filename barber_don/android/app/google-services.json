@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "755110545899",
+    "firebase_url": "https://barberdon-a85a2.firebaseio.com",
+    "project_id": "barberdon-a85a2",
+    "storage_bucket": "barberdon-a85a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755110545899:android:ef3c4f7cc70c6287a631ae",
+        "android_client_info": {
+          "package_name": "butterflyprojeito.flutter.barber_don"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755110545899-drdhn3r5nqfvgk63msqbt5tvrb4umc2q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjl-4P6sN_bKaEb_x5SVYRYYQR65mjR5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755110545899-drdhn3r5nqfvgk63msqbt5tvrb4umc2q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
