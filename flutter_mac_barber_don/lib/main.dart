@@ -1,4 +1,3 @@
-import 'package:barber_don/Home.dart';
 import 'package:barber_don/login.page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

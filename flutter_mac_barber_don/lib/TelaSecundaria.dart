@@ -7,25 +7,29 @@ class TelaSecundaria extends StatefulWidget {
   _TelaSecundariaState createState() => _TelaSecundariaState();
 }
 
+//?----------------------------------------------- VARS
+//!----------------------------------------------- FUNCOES
+_test() {
+  print("acao:menu TELA SECUNDARIA");
+}
+
 class _TelaSecundariaState extends State<TelaSecundaria> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(""
-            "Nossos Servicos",
+        title: Text(
+          ""
+          "Nossos Servicos",
           style: TextStyle(
-            fontStyle: FontStyle.italic,
-            fontSize: 25,
-            color: Colors.white
-          ),
+              fontStyle: FontStyle.italic, fontSize: 25, color: Colors.white),
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.menu),
-            onPressed: (){
-              print("acao:menu");
+            onPressed: () {
+              _test();
             },
           ),
         ],
@@ -38,82 +42,63 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.asset("image/barber_2.jpg"),
-
             Divider(),
-
             Container(
               child: Column(
                 children: <Widget>[
                   Text(
-                      "Corte Masculino Gentleman",
+                    "Corte Masculino Gentleman",
                     style: TextStyle(
-                      fontSize: 25,
-                     fontStyle: FontStyle.italic,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.black,
-                      decorationStyle: TextDecorationStyle.solid,
-                      color: Colors.black
-                    ),
+                        fontSize: 25,
+                        fontStyle: FontStyle.italic,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.black,
+                        decorationStyle: TextDecorationStyle.solid,
+                        color: Colors.black),
                   ),
-
                   Divider(),
-
                   Container(
                     child: Column(
                       children: <Widget>[
                         Text(
                           "Valor: 30 Reais",
                           style: TextStyle(
-                            fontSize: 20,
-                            fontStyle: FontStyle.italic
-                          ),
+                              fontSize: 20, fontStyle: FontStyle.italic),
                         ),
-
                         Divider(),
-
                         Container(
                           height: 50,
                           width: 250,
                           decoration: BoxDecoration(
                             color: Color(0xff1a0f00),
-                            borderRadius: BorderRadius.circular(
-                                60
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TerceiraTela()),
+                              );
+                            },
+                            child: Text(
+                              "Agendar",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.white),
                             ),
                           ),
-                         child: FlatButton(
-                             onPressed: (){
-                               Navigator.push(
-                                 context,
-                                 MaterialPageRoute(
-                                     builder: (context) => TerceiraTela ()
-                                 ),
-                               );
-                             },
-                           child: Text(
-                             "Agendar",
-                             style: TextStyle(
-                                 fontSize: 20,
-                                 fontStyle: FontStyle.italic,
-                                 color: Colors.white
-                             ),
-                           ),
-                         ),
                         ),
                       ],
                     ),
                   ),
-
-
                   Divider(),
-
-
                   Container(
                     child: Column(
                       children: <Widget>[
                         Image.asset("image/corte_4.jpg"),
-
                         Divider(),
-
                         Container(
                           child: Column(
                             children: <Widget>[
@@ -125,12 +110,9 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
                                     decoration: TextDecoration.underline,
                                     decorationColor: Colors.black,
                                     decorationStyle: TextDecorationStyle.solid,
-                                    color: Colors.black
-                                ),
+                                    color: Colors.black),
                               ),
-
                               Divider(),
-
                               Container(
                                 child: Column(
                                   children: <Widget>[
@@ -138,28 +120,23 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
                                       "Valor: 25 Reais",
                                       style: TextStyle(
                                           fontSize: 20,
-                                          fontStyle: FontStyle.italic
-                                      ),
+                                          fontStyle: FontStyle.italic),
                                     ),
-
                                     Divider(),
-
                                     Container(
                                       height: 50,
                                       width: 250,
                                       decoration: BoxDecoration(
                                         color: Color(0xff1a0f00),
-                                        borderRadius: BorderRadius.circular(
-                                            60
-                                        ),
+                                        borderRadius: BorderRadius.circular(60),
                                       ),
                                       child: FlatButton(
-                                        onPressed: (){
+                                        onPressed: () {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => TerceiraTela ()
-                                            ),
+                                                builder: (context) =>
+                                                    TerceiraTela()),
                                           );
                                         },
                                         child: Text(
@@ -167,24 +144,19 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontStyle: FontStyle.italic,
-                                              color: Colors.white
-                                          ),
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-
                               Divider(),
-
                               Container(
                                 child: Column(
                                   children: <Widget>[
                                     Image.asset("image/pacote_1.jpg"),
-
                                     Divider(),
-
                                     Container(
                                       child: Column(
                                         children: <Widget>[
@@ -193,15 +165,14 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
                                             style: TextStyle(
                                                 fontSize: 25,
                                                 fontStyle: FontStyle.italic,
-                                                decoration: TextDecoration.underline,
+                                                decoration:
+                                                    TextDecoration.underline,
                                                 decorationColor: Colors.black,
-                                                decorationStyle: TextDecorationStyle.solid,
-                                                color: Colors.black
-                                            ),
+                                                decorationStyle:
+                                                    TextDecorationStyle.solid,
+                                                color: Colors.black),
                                           ),
-
                                           Divider(),
-
                                           Container(
                                             child: Column(
                                               children: <Widget>[
@@ -209,53 +180,47 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
                                                   "Valor: 70 Reais",
                                                   style: TextStyle(
                                                       fontSize: 20,
-                                                      fontStyle: FontStyle.italic
-                                                  ),
+                                                      fontStyle:
+                                                          FontStyle.italic),
                                                 ),
-
                                                 Divider(),
-
                                                 Container(
                                                   height: 50,
                                                   width: 250,
                                                   decoration: BoxDecoration(
                                                     color: Color(0xff1a0f00),
-                                                    borderRadius: BorderRadius.circular(
-                                                        60
-                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            60),
                                                   ),
                                                   child: FlatButton(
-                                                      onPressed: (){
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => TerceiraTela ()
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Text(
-                                                          "Agendar",
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontStyle: FontStyle.italic,
-                                                            color: Colors.white
-                                                        ),
-                                                      ),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                TerceiraTela()),
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                      "Agendar",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                          color: Colors.white),
+                                                    ),
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          
                                           Divider(),
-                                          
                                           Container(
                                             child: Column(
                                               children: <Widget>[
                                                 Image.asset("image/kids_1.jpg"),
-
                                                 Divider(),
-
                                                 Container(
                                                   child: Column(
                                                     children: <Widget>[
@@ -263,16 +228,20 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
                                                         "Corte Kids",
                                                         style: TextStyle(
                                                             fontSize: 25,
-                                                            fontStyle: FontStyle.italic,
-                                                            decoration: TextDecoration.underline,
-                                                            decorationColor: Colors.black,
-                                                            decorationStyle: TextDecorationStyle.solid,
-                                                            color: Colors.black
-                                                        ),
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                            decorationColor:
+                                                                Colors.black,
+                                                            decorationStyle:
+                                                                TextDecorationStyle
+                                                                    .solid,
+                                                            color:
+                                                                Colors.black),
                                                       ),
-
                                                       Divider(),
-
                                                       Container(
                                                         child: Column(
                                                           children: <Widget>[
@@ -280,81 +249,74 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
                                                               "Valor: 20 Reais",
                                                               style: TextStyle(
                                                                   fontSize: 20,
-                                                                  fontStyle: FontStyle.italic
-                                                              ),
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .italic),
                                                             ),
-
                                                             Divider(),
-
                                                             Container(
                                                               height: 50,
                                                               width: 250,
-                                                              decoration: BoxDecoration(
-                                                                color: Color(0xff1a0f00),
-                                                                borderRadius: BorderRadius.circular(
-                                                                    60
-                                                                ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color(
+                                                                    0xff1a0f00),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            60),
                                                               ),
                                                               child: FlatButton(
-                                                                  onPressed: (){
-                                                                    Navigator.push(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                            builder: (context) => TerceiraTela ()
-                                                                        ),
-                                                                    );
-                                                                  },
-                                                                  child: Text(
-                                                                    "Agendar",
-                                                                    style: TextStyle(
-                                                                        fontSize: 20,
-                                                                        fontStyle: FontStyle.italic,
-                                                                        color: Colors.white
-                                                                    ),
-                                                                  ),
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                TerceiraTela()),
+                                                                  );
+                                                                },
+                                                                child: Text(
+                                                                  "Agendar",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .italic,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
                                                               ),
                                                             ),
-
                                                           ],
                                                         ),
                                                       ),
-
                                                     ],
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          
-                                          
-                                          
-
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ),
-
                 ],
-
               ),
-
             )
-
-
           ],
         ),
       ),
-
     );
   }
 }

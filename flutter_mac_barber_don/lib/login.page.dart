@@ -1,6 +1,8 @@
 import 'package:barber_don/Home.dart';
 import 'package:barber_don/ResetPassword.dart';
 import 'package:barber_don/Signup.dart';
+import 'package:barber_don/model/Usuario.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
@@ -28,27 +30,36 @@ class _LoginPageState extends State<LoginPage> {
   String _username;
   bool userIsFacebookLogged = false;
 
+  String _mensagemErro = "";
+  bool _mensagemErroIsSucess = false;
+
   //!------------------------------------------ funcoes
   //*------------------------------------------ Firebase
-  void _onPressed() {
-    print("pressed");
-    // ignore: deprecated_member_use
-    final firestoreInstance = Firestore.instance;
-    firestoreInstance.collection("users").add({
-      "name": "john",
-      "age": 50,
-      "email": "example@example.com",
-      "address": {"street": "street 24", "city": "new york"}
-    }).then((value) {
-      // ignore: deprecated_member_use
-      print(value.documentID);
+
+  void _cleanMessage() {
+    setState(() {
+      _mensagemErro = "";
     });
   }
 
-  //------------------------------------------- facebook start
+  final TextEditingController _controllerEmail = new TextEditingController();
+  final TextEditingController _controllerSenha = new TextEditingController();
+
+  void _cleanInputs() {
+    print("** ** INPUTS LIMPOS ** **");
+    setState(() {
+      _controllerEmail.clear();
+      _userpassword = "";
+      _controllerSenha.clear();
+      _useremail = "";
+    });
+  }
+
+  //------------------------------------------- login_facebook start
   String _message = 'Log in/out by pressing the buttons below.';
 
   Future<Null> _login() async {
+    _cleanMessage();
     final FacebookLoginResult result =
         await LoginPage.facebookSignIn.logIn(['email']);
 
@@ -63,6 +74,8 @@ class _LoginPageState extends State<LoginPage> {
       case FacebookLoginStatus.loggedIn:
         final FacebookAccessToken accessToken = result.accessToken;
         print("****************** ENTROU PELO FACEBOOK ***************");
+        _cleanInputs();
+
         String facebookUserData = graphResponse.body;
         final body = json.decode(facebookUserData);
         _username = body['name'];
@@ -71,8 +84,10 @@ class _LoginPageState extends State<LoginPage> {
         print("Nome Completo: " + _username);
         print("Primeiro Nome: " + _usernameFirst);
         print("Último Nome: " + _usernameLast);
+        _useremail = "";
 
         // GRAVAR AQUI NO FIREBASE O CLIENTE QUE LOGGOU PELO FACEBOOK
+        _goToScreenHome();
 
         setState(() {
           userIsFacebookLogged = true;
@@ -90,18 +105,52 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<Null> _logOut() async {
+    _cleanMessage();
     await LoginPage.facebookSignIn.logOut();
     print("****************** SAIU DO FACEBOOK ***************");
+    _cleanInputs();
     setState(() {
+      _username = "";
+      _useremail = "";
       userIsFacebookLogged = false;
     });
   }
 
-  //------------------------------------------- facebook end
+  //------------------------------------------- login_facebook end
+  //------------------------------------------- login_default start
+  _loginUsuario(Usuario usuario) {
+    _cleanMessage();
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    auth
+        .signInWithEmailAndPassword(
+            email: usuario.email, password: usuario.senha)
+        .then((firebaseUser) {
+      setState(() {
+        _mensagemErroIsSucess = true;
+        _mensagemErro = "Login com sucesso";
+        _useremail = usuario.email;
+        _username = "";
+      });
+      // Navegar para o login
+      _goToScreenHome();
+    }).catchError((error) {
+      print("erro app: " + error.toString());
+      setState(() {
+        _mensagemErroIsSucess = false;
+        _mensagemErro = error.toString();
+        //_mensagemErro =
+        "Erro ao cadastrar usuario, verifique os campos e tente novamente!";
+      });
+    });
+  }
+
+  //------------------------------------------- login_default end
   void _goToScreenHome() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Home()),
+      MaterialPageRoute(builder: (context) => Home(_username, _useremail)),
     );
     // void _goToScreenHome(){
     //     Navigator.push(
@@ -115,7 +164,11 @@ class _LoginPageState extends State<LoginPage> {
     print(_useremail);
     print("Isto e _userpassword");
     print(_userpassword);
-    _onPressed();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -127,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(
-          top: 100,
+          top: 40,
           left: 40,
           right: 40,
         ),
@@ -143,6 +196,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 40,
             ),
             TextFormField(
+              controller: _controllerEmail,
               keyboardType: TextInputType.emailAddress,
               onChanged: (value) => _useremail = value,
               decoration: InputDecoration(
@@ -161,6 +215,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 10,
             ),
             TextFormField(
+              controller: _controllerSenha,
               keyboardType: TextInputType.text,
               onChanged: (value) => _userpassword = value,
               obscureText: true,
@@ -214,45 +269,48 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(height: 20),
-            Container(
-              height: 60,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: [0.3, 1],
-                  colors: [Color(0xff1a0f00), Colors.red],
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: SizedBox.expand(
-                child: FlatButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 25,
-                        ),
-                        textAlign: TextAlign.left,
+            userIsFacebookLogged == false
+                ? Container(
+                    height: 60,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [0.3, 1],
+                        colors: [Color(0xff1a0f00), Colors.red],
                       ),
-                    ],
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Home()),
-                    );
-                  },
-                ),
-              ),
-            ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                    child: SizedBox.expand(
+                        child: FlatButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Login",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        Usuario usuario = Usuario();
+                        usuario.nome = _username;
+                        usuario.email = _useremail;
+                        usuario.senha = _userpassword;
+
+                        _loginUsuario(usuario);
+                      },
+                    )),
+                  )
+                : SizedBox(height: 20),
             SizedBox(height: 20),
             Container(
               height: 60,
@@ -319,6 +377,17 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   );
                 },
+              ),
+            ),
+            Center(
+              child: Text(
+                _mensagemErro,
+                style: TextStyle(
+                  color: _mensagemErroIsSucess == false
+                      ? Colors.red
+                      : Colors.green,
+                  fontSize: 20,
+                ),
               ),
             ),
           ],
